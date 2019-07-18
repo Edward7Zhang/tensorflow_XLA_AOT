@@ -1,0 +1,20 @@
+# /* tensorflow/compiler/aot/tests/test_graph_tfmatmul.config.pbtxt */
+# Each feed is a positional input argument for the generated function.  The order
+# of each entry matches the order of each input argument.  Here “x_hold” and “y_hold”
+# refer to the names of placeholder nodes defined in the graph.
+feed {
+  id { node_name: "input" }
+  shape {
+    dim { size: 1 }
+    dim { size: 160 }
+    dim { size: 160 }
+    dim { size: 3 }
+  }
+}
+
+# Each fetch is a positional output argument for the generated function.  The order
+# of each entry matches the order of each output argument.  Here “x_y_prod”
+# refers to the name of a matmul node defined in the graph.
+fetch {
+  id { node_name: "MobilenetV2/Predictions/Reshape_1" }
+}
