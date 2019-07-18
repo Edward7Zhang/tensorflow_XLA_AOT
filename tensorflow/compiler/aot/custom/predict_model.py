@@ -1,7 +1,7 @@
 import numpy as np
 from keras.preprocessing import image
 
-lib_custom_interface = np.ctypeslib.load_library('lib_custom_interface', '/home/majortom/WORKSPACE/tensorflow/bazel-bin/tensorflow/compiler/aot/custom')
+lib_custom_interface = np.ctypeslib.load_library('lib_custom_interface', '/home/majortom/WORKSPACE/tensorflow_XLA_AOT/tensorflow/compiler/aot/custom')
 lib_custom_interface.run.argtypes = [
     np.ctypeslib.ndpointer(np.float32, ndim=4, shape=(1, 160, 160, 3)),
     np.ctypeslib.ndpointer(np.float32, ndim=2, shape=(1, 30)),

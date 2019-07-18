@@ -15,6 +15,8 @@ extern "C" int run(float* input, float* output, int input_size, int output_size)
     std::copy(input, input + input_size, classifier.arg0_data());
     auto ok = classifier.Run();
     if (not ok) return -1;
+    std::cout << output << std::endl;
+    std::cout << output_size << std::endl;
     std::copy(classifier.result0_data(), classifier.result0_data() + output_size, output);
     return 0;
 }
