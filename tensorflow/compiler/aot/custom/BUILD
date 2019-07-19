@@ -12,8 +12,8 @@ tf_library(
 
 cc_library(
     name = "library",
-    hdrs = ["out.h"],
-    srcs = ["out_model.o","out_helper.o"],
+    hdrs = ["custom_interface_lib.h"],
+    srcs = ["custom_interface_tfcompile_function.o","custom_interface_tfcompile_metadata.o"],
 )
 
 cc_binary(
