@@ -34,7 +34,7 @@ cc_binary(
 
     ],
 
-    linkopts = ["-lpthread"],
+    linkopts = ["-shared"],
 
     linkshared = 1,
 
