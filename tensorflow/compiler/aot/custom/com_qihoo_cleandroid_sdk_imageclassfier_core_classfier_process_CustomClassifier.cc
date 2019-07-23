@@ -3,8 +3,9 @@
 
 #include <iostream>
 #include <cstdio>
+#include <jni.h>
+#include <android/log.h>
 #include "custom_interface_lib.h"
-#include "com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier.h"
 #include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
 
 float* run(float* input, float* output, int input_size, int output_size){
@@ -16,7 +17,8 @@ float* run(float* input, float* output, int input_size, int output_size){
 
         std::copy(input, input + input_size, classifier.arg0_data());
         auto ok = classifier.Run();
-        if (not ok) std::cout << "NOT OK" << std::endl;;
+        if (not ok) std::cout << "NOT OK" << std::endl;
+
         std::cout << "input:";
         std::cout << input << std::endl;
 
@@ -46,14 +48,26 @@ float* run(float* input, float* output, int input_size, int output_size){
         return output;
     }
 
-extern "C"{
+#ifndef _Included_com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier
+#define _Included_com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier
+#ifdef __cplusplus
+extern "C" {
+#endif
     JNIEXPORT jobjectArray JNICALL Java_com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier_getPredictResult
       (JNIEnv *env, jobject obj, jobjectArray inputArray, jobjectArray outputArray, jint inputSize, jint outputSize){
-        jfloatArray tempInputArray = (jfloatArray)env->GetObjectArrayElement(inputArray, 0);
-        jfloat* input = env->GetFloatArrayElements(tempInputArray, 0);
+        jboolean isCopy = JNI_FALSE;
+        __android_log_print(ANDROID_LOG_INFO, "NATIVE", "~~~~~~~~~input: %d~~~~~~~~~~~~~~~\n", inputArray);
+        jobjectArray tempInputArray = (jobjectArray)env->GetObjectArrayElement(inputArray, 0);
+        tempInputArray = (jobjectArray)env->GetObjectArrayElement(tempInputArray, 0);
+        tempInputArray = (jobjectArray)env->GetObjectArrayElement(tempInputArray, 0);
+        jfloatArray tTempInputArray = (jfloatArray)env->GetObjectArrayElement(tempInputArray, 0);
+        jfloat* input = static_cast<jfloat *>(env->GetPrimitiveArrayCritical(tTempInputArray, &isCopy));
+        __android_log_print(ANDROID_LOG_INFO, "NATIVE", "~~~~~~~~~isCopy: %d~~~~~~~~~~~~~~~\n", isCopy);
 
-        tempInputArray = (jfloatArray)env->GetObjectArrayElement(outputArray, 0);
-        jfloat* output = env->GetFloatArrayElements(tempInputArray, 0);
+        jfloatArray tempOutputArray = (jfloatArray)outputArray;
+        jfloat* output = static_cast<jfloat *>(env->GetPrimitiveArrayCritical(tempOutputArray, &isCopy));
+
+        __android_log_print(ANDROID_LOG_INFO, "NATIVE", "~~~~~~~~~isCopy: %d~~~~~~~~~~~~~~~\n", isCopy);
 
         jfloat* resultPointer = run(input, output, inputSize, outputSize);
 
@@ -74,5 +88,8 @@ extern "C"{
         }
         return resultData;
       }
+#ifdef __cplusplus
 }
+#endif
+#endif
 
