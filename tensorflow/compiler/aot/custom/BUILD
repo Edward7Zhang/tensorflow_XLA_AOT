@@ -20,7 +20,7 @@ cc_binary(
     name = "lib_custom_interface.so",
 
     srcs = [
-    "custom_interface.cc",
+    "com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier.cc",
     ],
 
     deps = [

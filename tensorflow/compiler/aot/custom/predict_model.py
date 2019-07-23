@@ -46,12 +46,13 @@ def predict_pb(x):
 image_path = input()
 
 x = image.img_to_array(image.load_img(image_path, target_size=(160, 160)))
+print(x)
+
 x = x[None, ...]
 # x = preprocess_input(x)
-# print(x)
 z = predict_pb(x)
 
 print(z[0])
 y = predict_so(x)
-# print(y[0])
+print(y[0])
 # print(decode_predictions(y)[0])
