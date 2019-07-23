@@ -2,7 +2,7 @@ import numpy as np
 from keras.preprocessing import image
 import tensorflow as tf
 
-lib_custom_interface = np.ctypeslib.load_library('lib_custom_interface', '/home/majortom/WORKSPACE/tensorflow_XLA_AOT/bazel-bin/tensorflow/compiler/aot/custom')
+lib_custom_interface = np.ctypeslib.load_library('lib_custom_interface', '/home/majortom/WORKSPACE/tensorflow_XLA_AOT/tensorflow/compiler/aot/custom')
 lib_custom_interface.run.argtypes = [
     np.ctypeslib.ndpointer(np.float32, ndim=4, shape=(1, 160, 160, 3), flags=('c', 'a')),
     np.ctypeslib.ndpointer(np.float32, ndim=2, shape=(1, 30), flags=('c', 'a', 'w')),
@@ -16,8 +16,9 @@ def predict_so(In):
     lib_custom_interface.run(In, Out, In.size, Out.size)
     return Out
 
+
 def predict_pb(x):
-    with tf.gfile.GFile('./frozen_custom_010.pb','rb') as f:
+    with tf.gfile.GFile('./frozen_custom_010.pb', 'rb') as f:
         graph_def = tf.compat.v1.GraphDef()
         graph_def.ParseFromString(f.read())
 
@@ -34,14 +35,12 @@ def predict_pb(x):
                 input = graph.get_tensor_by_name('input:0')
 
                 feed_dict = {
-                    input.name : x
+                    input.name: x
                 }
 
                 output_prediction = graph.get_tensor_by_name('MobilenetV2/Predictions/Reshape_1:0')
                 output_prediction = sess.run(output_prediction, feed_dict)
                 return output_prediction
-
-
 
 
 image_path = input()

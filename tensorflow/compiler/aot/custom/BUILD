@@ -12,7 +12,7 @@ tf_library(
 
 cc_library(
     name = "library",
-    hdrs = ["custom_interface_lib.h"],
+    hdrs = ["custom_interface_lib.h", "com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier.h"],
     srcs = ["custom_interface_tfcompile_function.o","custom_interface_tfcompile_metadata.o"],
 )
 
