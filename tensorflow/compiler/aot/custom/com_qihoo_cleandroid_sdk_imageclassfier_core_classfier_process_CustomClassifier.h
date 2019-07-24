@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier
  * Method:    getPredictResult
- * Signature: ([[[[F[[FII)[[F
+ * Signature: ([[[[F[[FII)V
  */
-JNIEXPORT jobjectArray JNICALL Java_com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier_getPredictResult
-  (JNIEnv *, jobject, jobjectArray, jobjectArray, jint, jint);
+JNIEXPORT void JNICALL Java_com_qihoo_cleandroid_sdk_imageclassfier_core_classfier_process_CustomClassifier_getPredictResult
+  (JNIEnv *, jclass, jobjectArray, jobjectArray, jint, jint);
 
 #ifdef __cplusplus
 }

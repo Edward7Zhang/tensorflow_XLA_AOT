@@ -36,8 +36,7 @@ cc_binary(
     ],
 
     linkopts = ["-landroid",
-                "-shared"
-    ],
+                "-shared",],
 
     linkshared = 1,
 
